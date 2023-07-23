@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/DavidGQK/bookings/internal/models"
 	"github.com/alexedwards/scs/v2"
-	"github.com/tsawler/bookings-app/internal/models"
 	"html/template"
 	"log"
 )

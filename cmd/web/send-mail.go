@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/tsawler/bookings-app/internal/models"
+	"github.com/DavidGQK/bookings/internal/models"
 	mail "github.com/xhit/go-simple-mail/v2"
 	"log"
 	"os"

@@ -2,7 +2,7 @@ package dbrepo
 
 import (
 	"errors"
-	"github.com/tsawler/bookings-app/internal/models"
+	"github.com/DavidGQK/bookings/internal/models"
 	"log"
 	"time"
 )

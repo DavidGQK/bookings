@@ -3,7 +3,7 @@ package dbrepo
 import (
 	"context"
 	"errors"
-	"github.com/tsawler/bookings-app/internal/models"
+	"github.com/DavidGQK/bookings/internal/models"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )

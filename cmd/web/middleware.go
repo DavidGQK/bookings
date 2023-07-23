@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/DavidGQK/bookings/internal/helpers"
 	"github.com/justinas/nosurf"
-	"github.com/tsawler/bookings-app/internal/helpers"
 	"net/http"
 )
 

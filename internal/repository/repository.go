@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/tsawler/bookings-app/internal/models"
+	"github.com/DavidGQK/bookings/internal/models"
 	"time"
 )
 
