@@ -6,3 +6,4 @@ _for_windows_run.bat
 database.yml
 .env
 .for_del
+static/admin
