@@ -123,14 +123,21 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	endDate, err := time.Parse(layout, ed)
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "can't get parse end date")
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
 	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "invalid data!")
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	room, err := m.DB.GetRoomByID(roomID)
+	if err != nil {
+		m.App.Session.Put(r.Context(), "error", "invalid data!")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
@@ -142,6 +149,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		StartDate: startDate,
 		EndDate:   endDate,
 		RoomID:    roomID,
+		Room:      room,
 	}
 
 	form := forms.New(r.PostForm)
