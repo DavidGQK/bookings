@@ -409,7 +409,7 @@ func (m *postgresDBRepo) GetReservationByID(id int) (models.Reservation, error) 
 				on
 						(r.room_id = rm.id)
 				where
-				    	r.id = $1
+				    	r.id = $1;
 `
 	row := m.DB.QueryRowContext(ctx, query, id)
 	err := row.Scan(
@@ -492,7 +492,7 @@ func (m *postgresDBRepo) UpdateProcessedForReservation(id, processed int) error 
 	query := `update
 					reservations
 			  set	
-					processed = $1,
+					processed = $1
 			  where
 				    id = $2;
 `
@@ -605,4 +605,56 @@ func (m *postgresDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end tim
 	}
 
 	return restrictions, nil
+}
+
+func (m *postgresDBRepo) InsertBlockForRoom(id int, startDate time.Time) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `insert into 
+    						room_restrictions (
+    						                   start_date, 
+    						                   end_date, 
+    						                   room_id, 
+    						                   restriction_id,	
+											   created_at, 
+    						                   updated_at
+    						) 
+			   values
+							($1, $2, $3, $4, $5, $6);
+`
+
+	_, err := m.DB.ExecContext(ctx, query,
+		startDate,
+		startDate.AddDate(0, 0, 1),
+		id,
+		2,
+		time.Now(),
+		time.Now(),
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *postgresDBRepo) DeleteBlockByID(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	query := `delete from
+    						room_restrictions
+			   where
+							id = $1;
+`
+
+	_, err := m.DB.ExecContext(ctx, query,
+		id,
+	)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
